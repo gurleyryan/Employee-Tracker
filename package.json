@@ -1,0 +1,24 @@
+{
+  "name": "employee-tracker",
+  "version": "1.0.0",
+  "description": "Employee Tracker",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gurleyryan/Employee-Tracker.git"
+  },
+  "author": "Ryan Gurley",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gurleyryan/Employee-Tracker/issues"
+  },
+  "homepage": "https://github.com/gurleyryan/Employee-Tracker#readme",
+  "dependencies": {
+    "inquirer": "^9.2.15",
+    "mysql2": "^3.9.1"
+  }
+}
