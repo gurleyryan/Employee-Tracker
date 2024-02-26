@@ -34,7 +34,7 @@ npm i
 ```
 Run the application using the terminal command:
 ```console
-node index.js
+node server.js
 ```
 
 ## Usage
