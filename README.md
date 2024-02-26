@@ -28,7 +28,7 @@ Built a command-line application from scratch to manage a company's employee dat
 ## Installation
 
 You must first clone this repo. Once the repo is downloaded, open it in VS Code. <br />
-Install Node.js modules, including the Inquirer.js dependency, using the terminal command:
+Install Node.js modules, including the Inquirer.js and MySQL2 dependencies, using the terminal command:
 ```console
 npm i
 ```
