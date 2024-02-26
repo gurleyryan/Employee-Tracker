@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/gurleyryan/Employee-Tracker#readme",
   "dependencies": {
-    "dotenv": "^16.4.5",
     "inquirer": "^8.2.4",
     "mysql2": "^3.9.1"
   }
