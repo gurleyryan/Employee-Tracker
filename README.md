@@ -39,8 +39,9 @@ node server.js
 
 ## Usage
 
-<br />
-[Link to demonstration video]()
+Select options using the arrow keys and enter key. <br />
+Type in your answers to the prompted questions and press enter. <br />
+[Link to demonstration video](https://drive.google.com/file/d/1PdneX4JjbN7gc1T1hQMghXdIhZVSQZag/view)
 
 
 ## Contributing
