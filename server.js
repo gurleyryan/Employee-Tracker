@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql2/promise");
 
-const { viewDept, viewRoles, viewEmployees, addDept, addRole, addEmployee, updateEmployee } = require("./db/query");
+const { viewDeptSQL, viewRolesSQL, viewEmployeesSQL, addDeptSQL, addRoleSQL, addEmployeeSQL, updateEmployeeSQL } = require("./db/query");
 
 let db;
 (async function () {
@@ -106,7 +106,7 @@ async function employeeTracker() {
 
         switch (answers.options) {
             case "View departments": {
-                const [rows] = await db.query(viewDept);
+                const [rows] = await db.query(viewDeptSQL);
                 console.table(rows);
                 console.log("View departments");
                 employeeTracker();
@@ -114,14 +114,14 @@ async function employeeTracker() {
             }
 
             case "View roles": {
-                const [rows] = await db.execute(viewRoles);
+                const [rows] = await db.execute(viewRolesSQL);
                 console.table(rows);
                 employeeTracker();
                 break;
             }
 
             case "View employees": {
-                const [rows] = await db.execute(viewEmployees);
+                const [rows] = await db.execute(viewEmployeesSQL);
                 console.table(rows);
                 employeeTracker();
                 break;
@@ -132,13 +132,14 @@ async function employeeTracker() {
                     try {
                         const answers = await inquirer.prompt(addDeptInq);
                         console.log("New department:", answers.newDept);
-                        const [rows] = await db.query(addDept, [answers.newDept]);
+                        const [rows] = await db.query(addDeptSQL, [answers.newDept]);
                         console.log("All departments:");
                         console.table(rows[1]);
                         console.log("Successfully added department");
                         employeeTracker();
                     } catch (error) {
                         console.error(error.message);
+                        employeeTracker();
                     }
                 }
                 addDept();
@@ -148,23 +149,24 @@ async function employeeTracker() {
             case "Add role": {
                 async function addRole() {
                     try {
-                        const [departments] = await db.query(viewDept);
+                        const [departments] = await db.query(viewDeptSQL);
                         addRoleInq[2].choices = departments.map((e) => e.name);
                         const { roleName, salary, department } = await inquirer.prompt(
                             addRoleInq
                         );
                         const depId = departments.find((e) => e.name === department).id;
-                        const [rows] = await db.query(addRole, [
+                        const [rows] = await db.query(addRoleSQL, [
                             roleName,
                             salary,
                             depId,
                         ]);
                         console.log("Successfully added role");
-                        const roles = await db.query(viewRoles);
+                        const roles = await db.query(viewRolesSQL);
                         console.table(roles[0]);
                         employeeTracker();
                     } catch (error) {
                         console.error(error.message);
+                        employeeTracker();
                     }
                 }
                 addRole();
@@ -174,10 +176,10 @@ async function employeeTracker() {
             case "Add employee": {
                 async function addEmployee() {
                     try {
-                        const [roles] = await db.query(viewRoles);
+                        const [roles] = await db.query(viewRolesSQL);
                         addEmployeeInq[2].choices = roles.map((e) => e.title);
 
-                        const [employees] = await db.query(viewEmployees);
+                        const [employees] = await db.query(viewEmployeesSQL);
                         addEmployeeInq[3].choices = employees.map((e) => e.first_name);
 
                         const {
@@ -195,7 +197,7 @@ async function employeeTracker() {
                             (e) => e.first_name === managerName
                         ).employee_id;
 
-                        const [rows] = await db.query(addEmployee, [
+                        const [rows] = await db.query(addEmployeeSQL, [
                             employeeFirstName,
                             employeeLastName,
                             roleId,
@@ -205,11 +207,12 @@ async function employeeTracker() {
                         console.log(
                             "Successfully added employee"
                         );
-                        const [viewEmployee] = await db.query(viewEmployees);
+                        const [viewEmployee] = await db.query(viewEmployeesSQL);
                         console.table(viewEmployee);
                         employeeTracker();
                     } catch (error) {
                         console.error(error.message);
+                        employeeTracker();
                     }
                 }
                 addEmployee();
@@ -219,10 +222,10 @@ async function employeeTracker() {
             case "Update employee": {
                 async function updateEmployee() {
                     try {
-                        const [employees] = await db.query(viewEmployees);
+                        const [employees] = await db.query(viewEmployeesSQL);
                         updateEmployeeInq[0].choices = employees.map((e) => e.first_name);
 
-                        const [roles] = await db.query(viewRoles);
+                        const [roles] = await db.query(viewRolesSQL);
                         updateEmployeeInq[1].choices = roles.map((e) => e.title);
 
                         const { employee, employeeRole } = await inquirer.prompt(
@@ -234,7 +237,7 @@ async function employeeTracker() {
                         ).employee_id;
                         const roleId = roles.find((e) => e.title === employeeRole).role_id;
 
-                        const [rows] = await db.query(updateEmployeeRole, [
+                        const [rows] = await db.query(updateEmployeeSQL, [
                             roleId,
                             employeeId,
                         ]);
@@ -243,11 +246,15 @@ async function employeeTracker() {
                         employeeTracker();
                     } catch (error) {
                         console.error(error.message);
+                        employeeTracker();
                     }
                 }
                 updateEmployee();
                 break;
             }
+            case "Exit": {
+                db.end();
+            };
         }
     } catch (error) {
         console.error(error.message);
