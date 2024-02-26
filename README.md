@@ -54,7 +54,9 @@ Contributors: <br />
 External Sources: <br />
 - [Node.js](https://nodejs.org/en) <br />
 - [Inquirer](https://www.npmjs.com/package/inquirer) <br />
-- [MySQL2](https://www.npmjs.com/package/mysql2)
+- [MySQL2](https://www.npmjs.com/package/mysql2)<br />
+- [Figlet](https://www.npmjs.com/package/figlet)<br />
+- [cli-table3](https://www.npmjs.com/package/cli-table3)
 
 ## Tests
 
